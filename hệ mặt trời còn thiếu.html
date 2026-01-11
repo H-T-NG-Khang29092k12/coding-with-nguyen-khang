@@ -1,0 +1,833 @@
+<!doctype html>
+<html lang="vi" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhà Khám Phá Hệ Mặt Trời</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=Exo+2:wght@300;400;600&amp;display=swap" rel="stylesheet">
+  <style>
+    body { box-sizing: border-box; }
+    
+    * { font-family: 'Exo 2', sans-serif; }
+    
+    .title-font { font-family: 'Orbitron', monospace; }
+    
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(1px 1px at 20px 30px, white, transparent),
+        radial-gradient(1px 1px at 40px 70px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 50px 160px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(1px 1px at 90px 40px, white, transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 160px 120px, white, transparent),
+        radial-gradient(1px 1px at 200px 50px, rgba(255,255,255,0.9), transparent),
+        radial-gradient(1px 1px at 250px 90px, white, transparent),
+        radial-gradient(1px 1px at 300px 150px, rgba(255,255,255,0.6), transparent),
+        radial-gradient(2px 2px at 350px 30px, white, transparent),
+        radial-gradient(1px 1px at 400px 100px, rgba(255,255,255,0.8), transparent),
+        radial-gradient(1px 1px at 450px 180px, white, transparent),
+        radial-gradient(1px 1px at 500px 60px, rgba(255,255,255,0.7), transparent),
+        radial-gradient(2px 2px at 550px 130px, white, transparent),
+        radial-gradient(1px 1px at 600px 20px, rgba(255,255,255,0.9), transparent);
+      background-size: 650px 200px;
+      animation: twinkle 8s ease-in-out infinite;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 1; }
+    }
+    
+    .planet {
+      position: absolute;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+    }
+    
+    .planet:hover {
+      transform: scale(1.15);
+    }
+    
+    .sun {
+      background: radial-gradient(circle at 30% 30%, #FFF7AD, #FFD93D 40%, #FF9500 70%, #FF6B00);
+      box-shadow: 0 0 60px #FFD93D, 0 0 120px #FF9500, 0 0 180px rgba(255,107,0,0.5);
+      animation: pulse-sun 4s ease-in-out infinite;
+    }
+    
+    @keyframes pulse-sun {
+      0%, 100% { box-shadow: 0 0 60px #FFD93D, 0 0 120px #FF9500, 0 0 180px rgba(255,107,0,0.5); }
+      50% { box-shadow: 0 0 80px #FFD93D, 0 0 150px #FF9500, 0 0 220px rgba(255,107,0,0.6); }
+    }
+    
+    .earth {
+      background: radial-gradient(circle at 30% 30%, #87CEEB, #4A90D9 30%, #2E6B4F 50%, #1E4A3A 70%, #0F2E4A);
+      box-shadow: inset -8px -8px 20px rgba(0,0,0,0.4), 0 0 30px rgba(74,144,217,0.4);
+    }
+    
+    .moon {
+      background: radial-gradient(circle at 35% 35%, #E8E8E8, #C4C4C4 40%, #A0A0A0 70%, #787878);
+      box-shadow: inset -4px -4px 10px rgba(0,0,0,0.3), 0 0 15px rgba(255,255,255,0.2);
+    }
+    
+    .mars {
+      background: radial-gradient(circle at 30% 30%, #E8B89D, #D4634A 40%, #B5412E 70%, #8B2500);
+      box-shadow: inset -6px -6px 15px rgba(0,0,0,0.4), 0 0 25px rgba(212,99,74,0.3);
+    }
+    
+    .orbit {
+      position: absolute;
+      border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    
+    .orbit-label {
+      position: absolute;
+      color: rgba(255,255,255,0.4);
+      font-size: 10px;
+      letter-spacing: 1px;
+    }
+    
+    .info-panel {
+      background: linear-gradient(135deg, rgba(10,20,40,0.95), rgba(20,40,80,0.9));
+      border: 1px solid rgba(100,150,255,0.3);
+      border-radius: 16px;
+      backdrop-filter: blur(10px);
+    }
+    
+    .control-btn {
+      background: linear-gradient(135deg, rgba(60,100,180,0.8), rgba(40,70,140,0.9));
+      border: 1px solid rgba(100,150,255,0.4);
+      transition: all 0.3s ease;
+    }
+    
+    .control-btn:hover {
+      background: linear-gradient(135deg, rgba(80,130,220,0.9), rgba(60,100,180,0.95));
+      box-shadow: 0 0 20px rgba(100,150,255,0.4);
+      transform: translateY(-2px);
+    }
+    
+    .control-btn.active {
+      background: linear-gradient(135deg, rgba(255,180,50,0.9), rgba(220,140,30,0.95));
+      border-color: rgba(255,200,100,0.6);
+      box-shadow: 0 0 25px rgba(255,180,50,0.5);
+    }
+    
+    .speed-indicator {
+      background: linear-gradient(90deg, rgba(100,150,255,0.3), rgba(255,180,50,0.8));
+    }
+    
+    .distance-line {
+      stroke-dasharray: 5, 5;
+      animation: dash 20s linear infinite;
+    }
+    
+    @keyframes dash {
+      to { stroke-dashoffset: -100; }
+    }
+    
+    .tooltip {
+      position: absolute;
+      background: rgba(10,20,40,0.95);
+      border: 1px solid rgba(100,150,255,0.5);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 12px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 100;
+    }
+    
+    .glow-text {
+      text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+    }
+    
+    .stat-bar {
+      height: 4px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+    
+    .stat-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.5s ease;
+    }
+    
+    .zoom-slider {
+      -webkit-appearance: none;
+      background: rgba(255,255,255,0.1);
+      border-radius: 4px;
+      height: 6px;
+    }
+    
+    .zoom-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FFD93D, #FF9500);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(255,180,50,0.5);
+    }
+    
+    .mini-map {
+      background: radial-gradient(circle, rgba(20,30,60,0.9), rgba(5,10,20,0.95));
+      border: 1px solid rgba(100,150,255,0.3);
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full m-0 overflow-hidden bg-gray-900">
+  <div id="app" class="relative w-full h-full" style="background: radial-gradient(ellipse at center, #0a1628 0%, #050a14 50%, #000005 100%);"><!-- Stars Background -->
+   <div class="stars"></div>
+   <div class="stars" style="background-size: 800px 300px; animation-delay: -4s; opacity: 0.6;"></div><!-- Main Canvas -->
+   <div id="solar-system" class="absolute inset-0 overflow-hidden"><!-- SVG for distance lines -->
+    <svg id="distance-svg" class="absolute inset-0 w-full h-full pointer-events-none" style="z-index: 5;"></svg><!-- Orbits will be rendered here -->
+    <div id="orbits-container"></div><!-- Celestial Bodies -->
+    <div id="sun" class="planet sun" style="width: 100px; height: 100px;">
+     <div class="absolute inset-0 rounded-full animate-pulse opacity-30 bg-yellow-400"></div>
+    </div>
+    <div id="earth" class="planet earth" style="width: 50px; height: 50px;">
+     <div class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-white opacity-40"></div>
+    </div>
+    <div id="moon" class="planet moon" style="width: 18px; height: 18px;"></div>
+    <div id="mars" class="planet mars" style="width: 35px; height: 35px;"></div>
+   </div><!-- Header -->
+   <div class="absolute top-0 left-0 right-0 p-4 z-20">
+    <div class="flex items-center justify-between">
+     <div>
+      <h1 id="main-title" class="title-font text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 via-orange-400 to-red-500 glow-text">🚀 Nhà Khám Phá Hệ Mặt Trời</h1>
+      <p id="welcome-text" class="text-blue-300 text-sm mt-1 opacity-80">Chào mừng đến với vũ trụ! Nhấp vào các hành tinh để khám phá</p>
+     </div><!-- Time Display -->
+     <div class="hidden md:flex items-center gap-4">
+      <div class="text-right">
+       <div class="text-xs text-blue-400 uppercase tracking-wider">
+        Thời gian mô phỏng
+       </div>
+       <div id="sim-time" class="title-font text-lg text-white">
+        Ngày 1
+       </div>
+      </div>
+      <div class="w-px h-10 bg-blue-500/30"></div>
+      <div class="text-right">
+       <div class="text-xs text-blue-400 uppercase tracking-wider">
+        Tốc độ
+       </div>
+       <div id="speed-display" class="title-font text-lg text-yellow-400">
+        1x
+       </div>
+      </div>
+     </div>
+    </div>
+   </div><!-- Controls Panel -->
+   <div class="absolute bottom-4 left-4 right-4 md:left-auto md:right-4 md:w-80 z-20">
+    <div class="info-panel p-4">
+     <div class="flex items-center justify-between mb-3"><span class="text-white font-semibold text-sm">⚙️ Điều khiển</span> <button id="toggle-controls" class="text-blue-400 hover:text-white text-xs">Thu gọn</button>
+     </div>
+     <div id="controls-content"><!-- Simulation Speed -->
+      <div class="mb-4">
+       <div class="flex justify-between text-xs text-blue-300 mb-2"><span>Tốc độ mô phỏng</span> <span id="speed-value">1x</span>
+       </div>
+       <div class="flex gap-2"><button data-speed="0" class="control-btn speed-btn px-3 py-1.5 rounded-lg text-white text-xs">⏸️</button> <button data-speed="0.5" class="control-btn speed-btn px-3 py-1.5 rounded-lg text-white text-xs">0.5x</button> <button data-speed="1" class="control-btn speed-btn active px-3 py-1.5 rounded-lg text-white text-xs">1x</button> <button data-speed="2" class="control-btn speed-btn px-3 py-1.5 rounded-lg text-white text-xs">2x</button> <button data-speed="5" class="control-btn speed-btn px-3 py-1.5 rounded-lg text-white text-xs">5x</button>
+       </div>
+      </div><!-- Zoom Control -->
+      <div class="mb-4">
+       <div class="flex justify-between text-xs text-blue-300 mb-2"><span>Thu phóng</span> <span id="zoom-value">100%</span>
+       </div><input type="range" id="zoom-slider" class="zoom-slider w-full" min="50" max="200" value="100">
+      </div><!-- View Mode -->
+      <div class="mb-4">
+       <div class="text-xs text-blue-300 mb-2">
+        Chế độ xem
+       </div>
+       <div class="flex gap-2"><button id="view-top" class="control-btn active px-3 py-1.5 rounded-lg text-white text-xs flex-1">🔭 Từ trên</button> <button id="view-follow" class="control-btn px-3 py-1.5 rounded-lg text-white text-xs flex-1">🎯 Theo dõi</button>
+       </div>
+      </div><!-- Display Options -->
+      <div class="flex flex-wrap gap-2"><button id="toggle-orbits" class="control-btn active px-3 py-1.5 rounded-lg text-white text-xs">🔄 Quỹ đạo</button> <button id="toggle-distances" class="control-btn px-3 py-1.5 rounded-lg text-white text-xs">📏 Khoảng cách</button> <button id="toggle-labels" class="control-btn active px-3 py-1.5 rounded-lg text-white text-xs">🏷️ Nhãn</button>
+      </div>
+     </div>
+    </div>
+   </div><!-- Info Panel (Left Side) -->
+   <div id="info-panel" class="absolute top-20 left-4 w-72 z-20 hidden">
+    <div class="info-panel p-4">
+     <div class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-2">
+       <div id="planet-icon" class="w-8 h-8 rounded-full"></div>
+       <h3 id="planet-name" class="title-font text-lg text-white font-bold">Trái Đất</h3>
+      </div><button id="close-info" class="text-blue-400 hover:text-white">✕</button>
+     </div>
+     <p id="planet-desc" class="text-blue-200 text-sm mb-4 leading-relaxed"></p>
+     <div class="space-y-3">
+      <div>
+       <div class="flex justify-between text-xs mb-1"><span class="text-blue-300">Đường kính</span> <span id="stat-diameter" class="text-white">12,742 km</span>
+       </div>
+       <div class="stat-bar">
+        <div id="bar-diameter" class="stat-fill bg-gradient-to-r from-blue-500 to-cyan-400" style="width: 50%"></div>
+       </div>
+      </div>
+      <div>
+       <div class="flex justify-between text-xs mb-1"><span class="text-blue-300">Khoảng cách từ Mặt Trời</span> <span id="stat-distance" class="text-white">149.6 triệu km</span>
+       </div>
+       <div class="stat-bar">
+        <div id="bar-distance" class="stat-fill bg-gradient-to-r from-yellow-500 to-orange-400" style="width: 40%"></div>
+       </div>
+      </div>
+      <div>
+       <div class="flex justify-between text-xs mb-1"><span class="text-blue-300">Chu kỳ quỹ đạo</span> <span id="stat-orbit" class="text-white">365 ngày</span>
+       </div>
+       <div class="stat-bar">
+        <div id="bar-orbit" class="stat-fill bg-gradient-to-r from-purple-500 to-pink-400" style="width: 60%"></div>
+       </div>
+      </div>
+      <div>
+       <div class="flex justify-between text-xs mb-1"><span class="text-blue-300">Trọng lực bề mặt</span> <span id="stat-gravity" class="text-white">9.8 m/s²</span>
+       </div>
+       <div class="stat-bar">
+        <div id="bar-gravity" class="stat-fill bg-gradient-to-r from-green-500 to-emerald-400" style="width: 70%"></div>
+       </div>
+      </div>
+     </div><!-- Fun Fact -->
+     <div class="mt-4 p-3 rounded-lg bg-gradient-to-r from-purple-900/50 to-blue-900/50 border border-purple-500/30">
+      <div class="text-xs text-purple-300 mb-1">
+       💡 Bạn có biết?
+      </div>
+      <p id="fun-fact" class="text-white text-xs leading-relaxed"></p>
+     </div>
+    </div>
+   </div><!-- Mini Map -->
+   <div class="absolute top-20 right-4 hidden md:block z-20">
+    <div class="mini-map w-32 h-32 rounded-xl p-2 relative overflow-hidden">
+     <div class="absolute top-1 left-2 text-xs text-blue-400">
+      Bản đồ
+     </div>
+     <div id="minimap-content" class="relative w-full h-full">
+      <div class="absolute w-3 h-3 rounded-full bg-yellow-400 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-lg shadow-yellow-400/50"></div>
+     </div>
+    </div>
+   </div><!-- Educational Overlay -->
+   <div id="edu-overlay" class="absolute inset-0 bg-black/80 z-30 hidden flex items-center justify-center p-4">
+    <div class="info-panel max-w-lg p-6 text-center">
+     <div class="text-4xl mb-4">
+      🌍
+     </div>
+     <h2 id="edu-title" class="title-font text-2xl text-white mb-4">Cơ học quỹ đạo</h2>
+     <p id="edu-content" class="text-blue-200 leading-relaxed mb-6"></p><button id="close-edu" class="control-btn px-6 py-2 rounded-lg text-white">Đã hiểu!</button>
+    </div>
+   </div><!-- Labels Container -->
+   <div id="labels-container" class="absolute inset-0 pointer-events-none z-10"></div><!-- Tooltip -->
+   <div id="tooltip" class="tooltip text-white"></div>
+  </div>
+  <script>
+    // Configuration
+    const defaultConfig = {
+      app_title: '🚀 Nhà Khám Phá Hệ Mặt Trời',
+      welcome_text: 'Chào mừng đến với vũ trụ! Nhấp vào các hành tinh để khám phá',
+      primary_color: '#0a1628',
+      accent_color: '#FFD93D',
+      text_color: '#E0F0FF',
+      surface_color: '#1a2a4a',
+      highlight_color: '#FF9500'
+    };
+
+    // Celestial body data
+    const celestialBodies = {
+      sun: {
+        name: 'Mặt Trời',
+        nameEn: 'Sun',
+        diameter: 1392700,
+        distance: 0,
+        orbitPeriod: 0,
+        gravity: 274,
+        description: 'Mặt Trời là ngôi sao trung tâm của hệ Mặt Trời, chứa 99.86% khối lượng toàn hệ. Nhiệt độ lõi đạt 15 triệu °C.',
+        funFact: 'Ánh sáng Mặt Trời mất 8 phút 20 giây để đến Trái Đất. Mỗi giây, Mặt Trời chuyển đổi 600 triệu tấn hydro thành heli!',
+        color: '#FFD93D',
+        orbitRadius: 0
+      },
+      earth: {
+        name: 'Trái Đất',
+        nameEn: 'Earth',
+        diameter: 12742,
+        distance: 149.6,
+        orbitPeriod: 365,
+        gravity: 9.8,
+        description: 'Trái Đất là hành tinh thứ 3 từ Mặt Trời và là nơi duy nhất được biết có sự sống. Bề mặt 71% là nước.',
+        funFact: 'Trái Đất quay với tốc độ 1,670 km/h ở xích đạo và di chuyển quanh Mặt Trời với tốc độ 107,000 km/h!',
+        color: '#4A90D9',
+        orbitRadius: 180
+      },
+      moon: {
+        name: 'Mặt Trăng',
+        nameEn: 'Moon',
+        diameter: 3474,
+        distance: 0.384,
+        orbitPeriod: 27,
+        gravity: 1.62,
+        description: 'Mặt Trăng là vệ tinh tự nhiên duy nhất của Trái Đất và là thiên thể sáng thứ 2 trên bầu trời đêm.',
+        funFact: 'Mặt Trăng đang dần xa Trái Đất với tốc độ 3.8 cm mỗi năm. Một ngày trên Mặt Trăng dài bằng 29.5 ngày Trái Đất!',
+        color: '#C4C4C4',
+        orbitRadius: 45
+      },
+      mars: {
+        name: 'Sao Hỏa',
+        nameEn: 'Mars',
+        diameter: 6779,
+        distance: 227.9,
+        orbitPeriod: 687,
+        gravity: 3.72,
+        description: 'Sao Hỏa được gọi là "Hành tinh Đỏ" do oxit sắt trên bề mặt. Có ngọn núi cao nhất hệ Mặt Trời - Olympus Mons.',
+        funFact: 'Olympus Mons cao 21.9 km, gấp gần 2.5 lần Everest! Một năm Sao Hỏa dài 687 ngày Trái Đất.',
+        color: '#D4634A',
+        orbitRadius: 280
+      }
+    };
+
+    const educationalContent = [
+      {
+        title: '🌍 Cơ học quỹ đạo',
+        content: 'Các hành tinh quay quanh Mặt Trời theo quỹ đạo elip do lực hấp dẫn. Định luật Kepler cho thấy hành tinh càng xa, chu kỳ quỹ đạo càng dài - Sao Hỏa mất 687 ngày trong khi Trái Đất chỉ mất 365 ngày!'
+      },
+      {
+        title: '📏 Khoảng cách vũ trụ',
+        content: 'Khoảng cách trong vũ trụ rất khó tưởng tượng! Trái Đất cách Mặt Trời 150 triệu km. Ánh sáng - thứ nhanh nhất vũ trụ - vẫn mất 8 phút để đi quãng đường này!'
+      },
+      {
+        title: '⚡ Tốc độ quỹ đạo',
+        content: 'Hành tinh gần Mặt Trời di chuyển nhanh hơn! Trái Đất bay 30 km/giây, còn Sao Hỏa chỉ 24 km/giây. Đây là kết quả của sự cân bằng giữa lực hấp dẫn và quán tính.'
+      }
+    ];
+
+    // State
+    let state = {
+      speed: 1,
+      zoom: 1,
+      showOrbits: true,
+      showDistances: false,
+      showLabels: true,
+      followPlanet: null,
+      viewMode: 'top',
+      time: 0,
+      selectedPlanet: null,
+      controlsExpanded: true,
+      positions: {
+        earth: { angle: 0 },
+        moon: { angle: 0 },
+        mars: { angle: Math.PI * 0.7 }
+      }
+    };
+
+    // DOM elements
+    const elements = {
+      sun: document.getElementById('sun'),
+      earth: document.getElementById('earth'),
+      moon: document.getElementById('moon'),
+      mars: document.getElementById('mars'),
+      infoPanel: document.getElementById('info-panel'),
+      tooltip: document.getElementById('tooltip'),
+      distanceSvg: document.getElementById('distance-svg'),
+      labelsContainer: document.getElementById('labels-container'),
+      orbitsContainer: document.getElementById('orbits-container'),
+      eduOverlay: document.getElementById('edu-overlay')
+    };
+
+    // Get center of screen
+    function getCenter() {
+      return {
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2
+      };
+    }
+
+    // Create orbits
+    function createOrbits() {
+      const center = getCenter();
+      elements.orbitsContainer.innerHTML = '';
+      
+      ['earth', 'mars'].forEach(planet => {
+        const data = celestialBodies[planet];
+        const radius = data.orbitRadius * state.zoom;
+        
+        const orbit = document.createElement('div');
+        orbit.className = 'orbit';
+        orbit.style.width = `${radius * 2}px`;
+        orbit.style.height = `${radius * 2}px`;
+        orbit.style.left = `${center.x - radius}px`;
+        orbit.style.top = `${center.y - radius}px`;
+        orbit.style.display = state.showOrbits ? 'block' : 'none';
+        orbit.dataset.planet = planet;
+        elements.orbitsContainer.appendChild(orbit);
+      });
+    }
+
+    // Update positions
+    function updatePositions() {
+      const center = getCenter();
+      const sunSize = 100 * state.zoom;
+      
+      // Sun
+      elements.sun.style.width = `${sunSize}px`;
+      elements.sun.style.height = `${sunSize}px`;
+      elements.sun.style.left = `${center.x - sunSize/2}px`;
+      elements.sun.style.top = `${center.y - sunSize/2}px`;
+      
+      // Earth
+      const earthRadius = celestialBodies.earth.orbitRadius * state.zoom;
+      const earthSize = 50 * state.zoom;
+      const earthX = center.x + Math.cos(state.positions.earth.angle) * earthRadius - earthSize/2;
+      const earthY = center.y + Math.sin(state.positions.earth.angle) * earthRadius - earthSize/2;
+      elements.earth.style.width = `${earthSize}px`;
+      elements.earth.style.height = `${earthSize}px`;
+      elements.earth.style.left = `${earthX}px`;
+      elements.earth.style.top = `${earthY}px`;
+      
+      // Moon (orbits Earth)
+      const moonRadius = celestialBodies.moon.orbitRadius * state.zoom;
+      const moonSize = 18 * state.zoom;
+      const moonCenterX = earthX + earthSize/2;
+      const moonCenterY = earthY + earthSize/2;
+      const moonX = moonCenterX + Math.cos(state.positions.moon.angle) * moonRadius - moonSize/2;
+      const moonY = moonCenterY + Math.sin(state.positions.moon.angle) * moonRadius - moonSize/2;
+      elements.moon.style.width = `${moonSize}px`;
+      elements.moon.style.height = `${moonSize}px`;
+      elements.moon.style.left = `${moonX}px`;
+      elements.moon.style.top = `${moonY}px`;
+      
+      // Mars
+      const marsRadius = celestialBodies.mars.orbitRadius * state.zoom;
+      const marsSize = 35 * state.zoom;
+      const marsX = center.x + Math.cos(state.positions.mars.angle) * marsRadius - marsSize/2;
+      const marsY = center.y + Math.sin(state.positions.mars.angle) * marsRadius - marsSize/2;
+      elements.mars.style.width = `${marsSize}px`;
+      elements.mars.style.height = `${marsSize}px`;
+      elements.mars.style.left = `${marsX}px`;
+      elements.mars.style.top = `${marsY}px`;
+      
+      // Update labels
+      updateLabels();
+      
+      // Update distance lines
+      if (state.showDistances) {
+        updateDistanceLines();
+      }
+      
+      // Update minimap
+      updateMinimap();
+    }
+
+    // Update labels
+    function updateLabels() {
+      if (!state.showLabels) {
+        elements.labelsContainer.innerHTML = '';
+        return;
+      }
+      
+      const center = getCenter();
+      let labelsHTML = '';
+      
+      // Sun label
+      labelsHTML += `<div class="absolute text-yellow-300 text-xs font-semibold" style="left: ${center.x}px; top: ${center.y + 60 * state.zoom}px; transform: translateX(-50%);">☀️ Mặt Trời</div>`;
+      
+      // Earth label
+      const earthRadius = celestialBodies.earth.orbitRadius * state.zoom;
+      const earthX = center.x + Math.cos(state.positions.earth.angle) * earthRadius;
+      const earthY = center.y + Math.sin(state.positions.earth.angle) * earthRadius;
+      labelsHTML += `<div class="absolute text-blue-300 text-xs font-semibold" style="left: ${earthX}px; top: ${earthY + 35 * state.zoom}px; transform: translateX(-50%);">🌍 Trái Đất</div>`;
+      
+      // Moon label
+      const moonRadius = celestialBodies.moon.orbitRadius * state.zoom;
+      const moonX = earthX + Math.cos(state.positions.moon.angle) * moonRadius;
+      const moonY = earthY + Math.sin(state.positions.moon.angle) * moonRadius;
+      labelsHTML += `<div class="absolute text-gray-300 text-xs" style="left: ${moonX}px; top: ${moonY + 18 * state.zoom}px; transform: translateX(-50%);">🌙</div>`;
+      
+      // Mars label
+      const marsRadius = celestialBodies.mars.orbitRadius * state.zoom;
+      const marsX = center.x + Math.cos(state.positions.mars.angle) * marsRadius;
+      const marsY = center.y + Math.sin(state.positions.mars.angle) * marsRadius;
+      labelsHTML += `<div class="absolute text-orange-300 text-xs font-semibold" style="left: ${marsX}px; top: ${marsY + 28 * state.zoom}px; transform: translateX(-50%);">🔴 Sao Hỏa</div>`;
+      
+      elements.labelsContainer.innerHTML = labelsHTML;
+    }
+
+    // Update distance lines
+    function updateDistanceLines() {
+      const center = getCenter();
+      let svg = '';
+      
+      const earthRadius = celestialBodies.earth.orbitRadius * state.zoom;
+      const earthX = center.x + Math.cos(state.positions.earth.angle) * earthRadius;
+      const earthY = center.y + Math.sin(state.positions.earth.angle) * earthRadius;
+      
+      const marsRadius = celestialBodies.mars.orbitRadius * state.zoom;
+      const marsX = center.x + Math.cos(state.positions.mars.angle) * marsRadius;
+      const marsY = center.y + Math.sin(state.positions.mars.angle) * marsRadius;
+      
+      // Sun to Earth
+      svg += `<line x1="${center.x}" y1="${center.y}" x2="${earthX}" y2="${earthY}" stroke="#FFD93D" stroke-width="1" class="distance-line" opacity="0.5"/>`;
+      
+      // Sun to Mars
+      svg += `<line x1="${center.x}" y1="${center.y}" x2="${marsX}" y2="${marsY}" stroke="#FF9500" stroke-width="1" class="distance-line" opacity="0.5"/>`;
+      
+      // Earth to Mars
+      svg += `<line x1="${earthX}" y1="${earthY}" x2="${marsX}" y2="${marsY}" stroke="#8B5CF6" stroke-width="1" class="distance-line" opacity="0.5"/>`;
+      
+      // Distance labels
+      const midEarthSun = { x: (center.x + earthX) / 2, y: (center.y + earthY) / 2 };
+      svg += `<text x="${midEarthSun.x}" y="${midEarthSun.y - 8}" fill="#FFD93D" font-size="10" text-anchor="middle">149.6M km</text>`;
+      
+      const midMarsSun = { x: (center.x + marsX) / 2, y: (center.y + marsY) / 2 };
+      svg += `<text x="${midMarsSun.x}" y="${midMarsSun.y - 8}" fill="#FF9500" font-size="10" text-anchor="middle">227.9M km</text>`;
+      
+      elements.distanceSvg.innerHTML = svg;
+    }
+
+    // Update minimap
+    function updateMinimap() {
+      const minimap = document.getElementById('minimap-content');
+      if (!minimap) return;
+      
+      const scale = 0.15;
+      
+      // Earth position on minimap
+      const earthAngle = state.positions.earth.angle;
+      const earthR = 35 * scale * 2;
+      const earthMX = 50 + Math.cos(earthAngle) * earthR;
+      const earthMY = 50 + Math.sin(earthAngle) * earthR;
+      
+      // Mars position on minimap
+      const marsAngle = state.positions.mars.angle;
+      const marsR = 55 * scale * 2;
+      const marsMX = 50 + Math.cos(marsAngle) * marsR;
+      const marsMY = 50 + Math.sin(marsAngle) * marsR;
+      
+      minimap.innerHTML = `
+        <div class="absolute w-3 h-3 rounded-full bg-yellow-400 shadow-lg shadow-yellow-400/50" style="left: 50%; top: 50%; transform: translate(-50%, -50%);"></div>
+        <div class="absolute w-2 h-2 rounded-full bg-blue-400" style="left: ${earthMX}%; top: ${earthMY}%; transform: translate(-50%, -50%);"></div>
+        <div class="absolute w-1.5 h-1.5 rounded-full bg-orange-400" style="left: ${marsMX}%; top: ${marsMY}%; transform: translate(-50%, -50%);"></div>
+      `;
+    }
+
+    // Show planet info
+    function showPlanetInfo(planetId) {
+      const data = celestialBodies[planetId];
+      state.selectedPlanet = planetId;
+      
+      document.getElementById('planet-name').textContent = data.name;
+      document.getElementById('planet-desc').textContent = data.description;
+      document.getElementById('planet-icon').style.background = data.color;
+      document.getElementById('fun-fact').textContent = data.funFact;
+      
+      document.getElementById('stat-diameter').textContent = data.diameter.toLocaleString() + ' km';
+      document.getElementById('stat-distance').textContent = data.distance === 0 ? '—' : data.distance + ' triệu km';
+      document.getElementById('stat-orbit').textContent = data.orbitPeriod === 0 ? '—' : data.orbitPeriod + ' ngày';
+      document.getElementById('stat-gravity').textContent = data.gravity + ' m/s²';
+      
+      // Animate bars
+      const maxDiameter = 1392700;
+      const maxDistance = 300;
+      const maxOrbit = 700;
+      const maxGravity = 274;
+      
+      document.getElementById('bar-diameter').style.width = `${(data.diameter / maxDiameter) * 100}%`;
+      document.getElementById('bar-distance').style.width = `${(data.distance / maxDistance) * 100}%`;
+      document.getElementById('bar-orbit').style.width = `${(data.orbitPeriod / maxOrbit) * 100}%`;
+      document.getElementById('bar-gravity').style.width = `${(data.gravity / maxGravity) * 100}%`;
+      
+      elements.infoPanel.classList.remove('hidden');
+    }
+
+    // Animation loop
+    function animate() {
+      if (state.speed > 0) {
+        // Earth: 365 days
+        state.positions.earth.angle += (0.002 * state.speed);
+        // Moon: 27 days (faster relative to Earth)
+        state.positions.moon.angle += (0.025 * state.speed);
+        // Mars: 687 days
+        state.positions.mars.angle += (0.00106 * state.speed);
+        
+        state.time += state.speed;
+        
+        // Update time display
+        const days = Math.floor(state.time);
+        document.getElementById('sim-time').textContent = `Ngày ${days + 1}`;
+      }
+      
+      updatePositions();
+      requestAnimationFrame(animate);
+    }
+
+    // Event listeners
+    function setupEventListeners() {
+      // Planet clicks
+      ['sun', 'earth', 'moon', 'mars'].forEach(id => {
+        elements[id].addEventListener('click', () => showPlanetInfo(id));
+        
+        elements[id].addEventListener('mouseenter', (e) => {
+          const data = celestialBodies[id];
+          elements.tooltip.textContent = data.name;
+          elements.tooltip.style.left = `${e.clientX + 15}px`;
+          elements.tooltip.style.top = `${e.clientY + 15}px`;
+          elements.tooltip.style.opacity = '1';
+        });
+        
+        elements[id].addEventListener('mouseleave', () => {
+          elements.tooltip.style.opacity = '0';
+        });
+      });
+      
+      // Close info panel
+      document.getElementById('close-info').addEventListener('click', () => {
+        elements.infoPanel.classList.add('hidden');
+        state.selectedPlanet = null;
+      });
+      
+      // Speed buttons
+      document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const speed = parseFloat(btn.dataset.speed);
+          state.speed = speed;
+          document.querySelectorAll('.speed-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.getElementById('speed-value').textContent = speed === 0 ? 'Tạm dừng' : speed + 'x';
+          document.getElementById('speed-display').textContent = speed === 0 ? '⏸️' : speed + 'x';
+        });
+      });
+      
+      // Zoom slider
+      document.getElementById('zoom-slider').addEventListener('input', (e) => {
+        state.zoom = e.target.value / 100;
+        document.getElementById('zoom-value').textContent = e.target.value + '%';
+        createOrbits();
+      });
+      
+      // Toggle buttons
+      document.getElementById('toggle-orbits').addEventListener('click', (e) => {
+        state.showOrbits = !state.showOrbits;
+        e.target.classList.toggle('active');
+        document.querySelectorAll('.orbit').forEach(o => {
+          o.style.display = state.showOrbits ? 'block' : 'none';
+        });
+      });
+      
+      document.getElementById('toggle-distances').addEventListener('click', (e) => {
+        state.showDistances = !state.showDistances;
+        e.target.classList.toggle('active');
+        if (!state.showDistances) {
+          elements.distanceSvg.innerHTML = '';
+        }
+      });
+      
+      document.getElementById('toggle-labels').addEventListener('click', (e) => {
+        state.showLabels = !state.showLabels;
+        e.target.classList.toggle('active');
+        updateLabels();
+      });
+      
+      // View mode
+      document.getElementById('view-top').addEventListener('click', (e) => {
+        state.viewMode = 'top';
+        state.followPlanet = null;
+        document.getElementById('view-top').classList.add('active');
+        document.getElementById('view-follow').classList.remove('active');
+      });
+      
+      document.getElementById('view-follow').addEventListener('click', (e) => {
+        state.viewMode = 'follow';
+        state.followPlanet = 'earth';
+        document.getElementById('view-follow').classList.add('active');
+        document.getElementById('view-top').classList.remove('active');
+      });
+      
+      // Toggle controls
+      document.getElementById('toggle-controls').addEventListener('click', (e) => {
+        state.controlsExpanded = !state.controlsExpanded;
+        document.getElementById('controls-content').style.display = state.controlsExpanded ? 'block' : 'none';
+        e.target.textContent = state.controlsExpanded ? 'Thu gọn' : 'Mở rộng';
+      });
+      
+      // Close education overlay
+      document.getElementById('close-edu').addEventListener('click', () => {
+        elements.eduOverlay.classList.add('hidden');
+      });
+      
+      // Window resize
+      window.addEventListener('resize', () => {
+        createOrbits();
+        updatePositions();
+      });
+      
+      // Show random educational content on first load
+      setTimeout(() => {
+        const content = educationalContent[Math.floor(Math.random() * educationalContent.length)];
+        document.getElementById('edu-title').textContent = content.title;
+        document.getElementById('edu-content').textContent = content.content;
+        elements.eduOverlay.classList.remove('hidden');
+      }, 2000);
+    }
+
+    // Initialize
+    function init() {
+      createOrbits();
+      updatePositions();
+      setupEventListeners();
+      animate();
+    }
+
+    // Element SDK integration
+    async function onConfigChange(config) {
+      document.getElementById('main-title').textContent = config.app_title || defaultConfig.app_title;
+      document.getElementById('welcome-text').textContent = config.welcome_text || defaultConfig.welcome_text;
+    }
+
+    function mapToCapabilities(config) {
+      return {
+        recolorables: [
+          {
+            get: () => config.primary_color || defaultConfig.primary_color,
+            set: (value) => { config.primary_color = value; window.elementSdk.setConfig({ primary_color: value }); }
+          },
+          {
+            get: () => config.accent_color || defaultConfig.accent_color,
+            set: (value) => { config.accent_color = value; window.elementSdk.setConfig({ accent_color: value }); }
+          },
+          {
+            get: () => config.text_color || defaultConfig.text_color,
+            set: (value) => { config.text_color = value; window.elementSdk.setConfig({ text_color: value }); }
+          }
+        ],
+        borderables: [],
+        fontEditable: undefined,
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([
+        ['app_title', config.app_title || defaultConfig.app_title],
+        ['welcome_text', config.welcome_text || defaultConfig.welcome_text]
+      ]);
+    }
+
+    // Start app
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities,
+        mapToEditPanelValues
+      });
+    }
+    
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9bbd27e7f423ff89',t:'MTc2ODA1ODQwMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
